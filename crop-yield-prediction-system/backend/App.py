@@ -9,11 +9,13 @@ def predict_crop():
     data = request.json
 
     temperature = data.get("temperature")
-    rainfall = data.get("rainfall")
-    soil_type = data.get("soilType")
+    humidity = data.get("humidity")
+    n = data.get("nitrogen")
+    p = data.get("phosphorus")
+    k = data.get("potassium")
 
     # 🔹 Dummy logic (replace with ML later)
-    if temperature > 25 and rainfall > 100:
+    if temperature > 25 and humidity > 100:
         crop = "Rice"
     elif temperature < 20:
         crop = "Wheat"

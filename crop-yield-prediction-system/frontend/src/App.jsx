@@ -3,8 +3,11 @@ import "./App.css";
 
 function App() {
   const [temperature, setTemperature] = useState("");
-  const [rainfall, setRainfall] = useState("");
-  const [soilType, setSoilType] = useState("");
+  const [humidity, setHumidity] = useState("");
+  const [nitrogen, setNitrogen] = useState("");
+  const [phosphorus, setPhosphorus] = useState("");
+  const [potassium, setPotassium] = useState("");
+
   const [result, setResult] = useState("");
 
   const handleSubmit = async (e) => {
@@ -17,8 +20,10 @@ function App() {
       },
       body: JSON.stringify({
         temperature: Number(temperature),
-        rainfall: Number(rainfall),
-        soilType,
+        humidity: Number(humidity),
+        nitrogen: Number(nitrogen),
+        phosphorus: Number(phosphorus),
+        potassium: Number(potassium),
       }),
     });
 
@@ -28,11 +33,12 @@ function App() {
 
   return (
     <div className="container">
-      <h1>AIML Powered Yield Prediction System 🌾</h1>
+      <p className="heading">AIML Powered Yield Prediction System 🌾</p>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="input-form">
         <input
           type="number"
+          className="input-field"
           placeholder="Temperature (°C)"
           value={temperature}
           onChange={(e) => setTemperature(e.target.value)}
@@ -41,17 +47,37 @@ function App() {
 
         <input
           type="number"
-          placeholder="Rainfall (mm)"
-          value={rainfall}
-          onChange={(e) => setRainfall(e.target.value)}
+          className="input-field"
+          placeholder="Humidity (%)"
+          value={humidity}
+          onChange={(e) => setHumidity(e.target.value)}
           required
         />
 
         <input
-          type="text"
-          placeholder="Soil Type"
-          value={soilType}
-          onChange={(e) => setSoilType(e.target.value)}
+          type="number"
+          className="input-field"
+          placeholder="Nitrogen (N)"
+          value={nitrogen}
+          onChange={(e) => setNitrogen(e.target.value)}
+          required
+        />
+
+        <input
+          type="number"
+          className="input-field"
+          placeholder="Phosphorus (P)"
+          value={phosphorus}
+          onChange={(e) => setPhosphorus(e.target.value)}
+          required
+        />
+
+        <input
+          type="number"
+          className="input-field"
+          placeholder="Potassium (K)"
+          value={potassium}
+          onChange={(e) => setPotassium(e.target.value)}
           required
         />
 
@@ -60,7 +86,7 @@ function App() {
 
       {result && (
         <div className="result">
-          🌱 Recommended Crop: <strong>{result}</strong>
+          Recommended Crop: {result}
         </div>
       )}
     </div>
