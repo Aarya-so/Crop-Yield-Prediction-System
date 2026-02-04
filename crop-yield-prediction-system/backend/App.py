@@ -1,30 +1,38 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import pickle
+import numpy as np
 
 app = Flask(__name__)
-CORS(app)  # allows React to talk to Flask
+CORS(app)   # allow React requests
+
+# 🔹 Load trained ML model
+with open("crop_recommendation_modelrf.pkl", "rb") as file:
+    model = pickle.load(file)
 
 @app.route("/predict", methods=["POST"])
-def predict_crop():
-    data = request.json
+def predict():
+    data = request.get_json()
 
-    temperature = data.get("temperature")
-    humidity = data.get("humidity")
-    n = data.get("nitrogen")
-    p = data.get("phosphorus")
-    k = data.get("potassium")
+    # 🔹 Extract inputs (same names as frontend)
+    nitrogen = float(data["nitrogen"])
+    phosphorus = float(data["phosphorus"])
+    potassium = float(data["potassium"]) 
+    temperature = float(data["temperature"])
+    humidity = float(data["humidity"])
+   
+    
+    
 
-    # 🔹 Dummy logic (replace with ML later)
-    if temperature > 25 and humidity > 100:
-        crop = "Rice"
-    elif temperature < 20:
-        crop = "Wheat"
-    else:
-        crop = "Maize"
+    # 🔹 Arrange input in SAME ORDER as training
+    input_data = np.array([[nitrogen, phosphorus, potassium, temperature, humidity]])
+
+    # 🔹 Predict crop
+    prediction = model.predict(input_data)[0]
 
     return jsonify({
-        "recommended_crop": crop
+        "recommended_crop": prediction
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)
