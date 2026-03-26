@@ -1,0 +1,202 @@
+.page-wrapper {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.5rem 1rem 3rem;
+}
+
+/* ── Card ─────────────────────────────────────────────────── */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  padding: 2.5rem 2.5rem 2rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  box-shadow:
+    0 4px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* ── Card header ──────────────────────────────────────────── */
+.card-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.card-icon {
+  display: block;
+  font-size: 2.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-family: "Instrument Serif", serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: #111;
+  margin: 0 0 0.5rem;
+}
+
+.card-subtitle {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.55);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Form ─────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.field-label {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.field-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.85rem;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.9rem;
+  color: #111;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field-input:focus {
+  border-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.field-input::placeholder { color: rgba(0, 0, 0, 0.3); }
+
+/* select arrow */
+select.field-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.2rem;
+  cursor: pointer;
+}
+
+/* ── Submit button ────────────────────────────────────────── */
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 12px;
+  background: #111;
+  color: #fff;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+}
+
+.submit-btn:hover:not(:disabled)  { background: #2a2a2a; }
+.submit-btn:active:not(:disabled) { transform: scale(0.98); }
+.submit-btn:disabled              { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Spinner ──────────────────────────────────────────────── */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Result box ───────────────────────────────────────────── */
+.result-box {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.result-box--success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.result-box--error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.875rem;
+  color: #b91c1c;
+}
+
+.result-label {
+  display: block;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+  margin-bottom: 0.4rem;
+}
+
+.result-value {
+  display: block;
+  font-family: "Instrument Serif", serif;
+  font-size: 2rem;
+  color: #111;
+  text-transform: capitalize;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .card { padding: 2rem 1.25rem 1.5rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .card-title { font-size: 1.8rem; }
+}

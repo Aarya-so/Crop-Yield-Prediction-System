@@ -1,0 +1,64 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand {
+  font-family: "Instrument Serif", serif;
+  font-size: 1.5rem;
+  color: #1a1a1a;
+  letter-spacing: 0.02em;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.65);
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #000;
+}
+
+.nav-item--active {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+  .nav-label { display: none; }
+  .nav-item  { padding: 0.5rem 0.75rem; }
+  .navbar-brand { font-size: 1.2rem; }
+}
