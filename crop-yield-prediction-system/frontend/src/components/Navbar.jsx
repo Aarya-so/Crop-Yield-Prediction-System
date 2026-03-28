@@ -12,7 +12,7 @@ const links = [
 export default function Navbar() {
   return (
     <nav className="navbar">
-      <span className="navbar-brand">🌿 FarmAI</span>
+      <span className="navbar-brand">🌿 AgriSense</span>
       <div className="navbar-links">
         {links.map(({ to, label, icon }) => (
           <NavLink
