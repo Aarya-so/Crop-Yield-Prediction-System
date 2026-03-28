@@ -1,9 +1,11 @@
 .yield-result {
+  padding: 1.25rem 1.75rem;
+}
+
+.yield-main {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  text-align: left;
-  padding: 1.25rem 1.75rem;
 }
 
 .yield-numeric {
@@ -56,7 +58,48 @@
 .yield-badge--medium { background: #d97706; }
 .yield-badge--low    { background: #dc2626; }
 
+/* ── Fertilizer CTA ───────────────────────────────────────── */
+.yield-cta {
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.yield-cta-text {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(0,0,0,0.65);
+  margin: 0;
+  flex: 1;
+  min-width: 160px;
+}
+
+.cta-btn {
+  white-space: nowrap;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 10px;
+  background: #111;
+  color: #fff;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  min-height: unset;
+  width: auto;
+}
+
+.cta-btn:hover  { background: #2a2a2a; }
+.cta-btn:active { transform: scale(0.97); }
+
 @media (max-width: 480px) {
-  .yield-result { flex-direction: column; text-align: center; }
+  .yield-main    { flex-direction: column; text-align: center; }
   .yield-divider { width: 80%; height: 1px; }
+  .yield-cta     { flex-direction: column; align-items: flex-start; }
 }

@@ -27,7 +27,7 @@ export default function CropPage() {
         }),
       })
       const data = await res.json()
-      setResult(data.recommended_crop)
+      setResult(data)
     } catch {
       setError('Could not reach the server. Is Flask running?')
     } finally {
@@ -75,9 +75,19 @@ export default function CropPage() {
 
         {error  && <div className="result-box result-box--error">{error}</div>}
         {result && (
-          <div className="result-box result-box--success">
+          <div className="result-box result-box--success fert-result">
             <span className="result-label">Recommended Crop</span>
-            <span className="result-value">{result}</span>
+            <span className="result-value">{result.recommended_crop}</span>
+            {result.validation?.length > 0 && (
+              <div className="fert-explanation">
+                {result.validation.map((line, i) => (
+                  <p key={i} className={`fert-line fert-line--${i === 0 ? 'title' : i === 1 ? 'status' : 'reason'}`}>
+                    {i === 0 ? '🌱 ' : i === 1 ? '📊 ' : '💡 '}
+                    {line}
+                  </p>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

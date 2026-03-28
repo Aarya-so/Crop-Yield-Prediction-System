@@ -1,17 +1,16 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Page.css'
 import './YieldPage.css'
 
-const CROPS = [
-  'coffee', 'cotton', 'groundnut', 'jute', 'maize',
-  'onion', 'potato', 'rice', 'rubber', 'soybean',
-  'sugarcane', 'sunflower', 'tea', 'tomato', 'wheat'
-]
+const CROPS = ['cotton', 'maize', 'rice', 'soybean', 'sugarcane']
 
 export default function YieldPage() {
+  const navigate = useNavigate()
+
   const [fields, setFields] = useState({
-    crop: '', soil_temp: '', nitrogen: '', phosphorus: '',
-    potassium: '', moisture: '', humidity: '', air_temp: ''
+    crop: '', nitrogen: '', phosphorus: '', potassium: '',
+    temperature: '', humidity: '', moisture: '', ph: ''
   })
   const [result, setResult]   = useState(null)
   const [loading, setLoading] = useState(false)
@@ -27,14 +26,14 @@ export default function YieldPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          crop:       fields.crop,
-          soil_temp:  Number(fields.soil_temp),
-          nitrogen:   Number(fields.nitrogen),
-          phosphorus: Number(fields.phosphorus),
-          potassium:  Number(fields.potassium),
-          moisture:   Number(fields.moisture),
-          humidity:   Number(fields.humidity),
-          air_temp:   Number(fields.air_temp),
+          crop:        fields.crop,
+          nitrogen:    Number(fields.nitrogen),
+          phosphorus:  Number(fields.phosphorus),
+          potassium:   Number(fields.potassium),
+          temperature: Number(fields.temperature),
+          humidity:    Number(fields.humidity),
+          moisture:    Number(fields.moisture),
+          ph:          Number(fields.ph),
         }),
       })
       const data = await res.json()
@@ -47,7 +46,24 @@ export default function YieldPage() {
     }
   }
 
+  const goToFertilizer = () => {
+    navigate('/fertilizer', {
+      state: {
+        prefill: {
+          crop:        fields.crop,
+          nitrogen:    fields.nitrogen,
+          phosphorus:  fields.phosphorus,
+          potassium:   fields.potassium,
+          temperature: fields.temperature,
+          humidity:    fields.humidity,
+          moisture:    fields.moisture,
+          ph:          fields.ph,
+        }
+      }
+    })
+  }
 
+  const needsFertilizer = result && (result.yield_category === 'Low' || result.yield_category === 'Medium')
 
   return (
     <div className="page-wrapper">
@@ -69,15 +85,6 @@ export default function YieldPage() {
                 ))}
               </select>
             </label>
-
-            <label className="field">
-              <span className="field-label">Soil Temp (°C)</span>
-              <input className="field-input" type="number" step="0.1" placeholder="e.g. 28" value={fields.soil_temp} onChange={set('soil_temp')} required />
-            </label>
-            <label className="field">
-              <span className="field-label">Air Temp (°C)</span>
-              <input className="field-input" type="number" step="0.1" placeholder="e.g. 25" value={fields.air_temp} onChange={set('air_temp')} required />
-            </label>
             <label className="field">
               <span className="field-label">Nitrogen (N)</span>
               <input className="field-input" type="number" placeholder="e.g. 90" value={fields.nitrogen} onChange={set('nitrogen')} required />
@@ -88,15 +95,23 @@ export default function YieldPage() {
             </label>
             <label className="field">
               <span className="field-label">Potassium (K)</span>
-              <input className="field-input" type="number" placeholder="e.g. 100" value={fields.potassium} onChange={set('potassium')} required />
+              <input className="field-input" type="number" placeholder="e.g. 40" value={fields.potassium} onChange={set('potassium')} required />
             </label>
             <label className="field">
-              <span className="field-label">Moisture (%)</span>
-              <input className="field-input" type="number" step="0.1" placeholder="e.g. 70" value={fields.moisture} onChange={set('moisture')} required />
+              <span className="field-label">Temperature (°C)</span>
+              <input className="field-input" type="number" step="0.1" placeholder="e.g. 28" value={fields.temperature} onChange={set('temperature')} required />
             </label>
             <label className="field">
               <span className="field-label">Humidity (%)</span>
-              <input className="field-input" type="number" step="0.1" placeholder="e.g. 80" value={fields.humidity} onChange={set('humidity')} required />
+              <input className="field-input" type="number" step="0.1" placeholder="e.g. 75" value={fields.humidity} onChange={set('humidity')} required />
+            </label>
+            <label className="field">
+              <span className="field-label">Moisture (%)</span>
+              <input className="field-input" type="number" step="0.1" placeholder="e.g. 65" value={fields.moisture} onChange={set('moisture')} required />
+            </label>
+            <label className="field">
+              <span className="field-label">Soil pH</span>
+              <input className="field-input" type="number" step="0.01" placeholder="e.g. 6.5" value={fields.ph} onChange={set('ph')} required />
             </label>
           </div>
 
@@ -108,21 +123,47 @@ export default function YieldPage() {
         {error && <div className="result-box result-box--error">{error}</div>}
 
         {result && (
-          <div className="result-box result-box--success yield-result">
-            <div className="yield-numeric">
-              <span className="result-label">Estimated Yield</span>
-              <span className="yield-value">
-                {result.yield_kg_ha.toLocaleString()}
-                <span className="yield-unit"> kg / ha</span>
-              </span>
+          <div className={`result-box result-box--success yield-result ${needsFertilizer ? 'yield-result--has-cta' : ''}`}>
+            <div className="yield-main">
+              <div className="yield-numeric">
+                <span className="result-label">Estimated Yield</span>
+                <span className="yield-value">
+                  {result.yield_kg_ha.toLocaleString()}
+                  <span className="yield-unit"> kg / ha</span>
+                </span>
+              </div>
+              <div className="yield-divider" />
+              <div className="yield-category">
+                <span className="result-label">Category</span>
+                <span className={`yield-badge yield-badge--${result.yield_category.toLowerCase()}`}>
+                  {result.yield_category}
+                </span>
+              </div>
             </div>
-            <div className="yield-divider" />
-            <div className="yield-category">
-              <span className="result-label">Category</span>
-              <span className={`yield-badge yield-badge--${result.yield_category.toLowerCase()}`}>
-                {result.yield_category}
-              </span>
-            </div>
+
+            {result.validation?.length > 0 && (
+              <div className="fert-explanation">
+                {result.validation.map((line, i) => (
+                  <p key={i} className={`fert-line fert-line--${i === 0 ? 'title' : i === 1 ? 'status' : 'reason'}`}>
+                    {i === 0 ? '📊 ' : i === 1 ? '🎯 ' : '💡 '}
+                    {line}
+                  </p>
+                ))}
+              </div>
+            )}
+
+            {needsFertilizer && (
+              <div className="yield-cta">
+                <p className="yield-cta-text">
+                  {result.yield_category === 'Low'
+                    ? '⚠️ Low yield detected. Fertilizer may help significantly.'
+                    : '💡 Yield could be improved with the right fertilizer.'}
+                </p>
+                <button className="cta-btn" type="button" onClick={goToFertilizer}>
+                  Get Fertilizer Recommendation →
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
