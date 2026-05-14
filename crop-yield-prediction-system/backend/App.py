@@ -48,9 +48,9 @@ with open("mh_crop_le.pkl",          "rb") as f: crop_le          = pickle.load(
 # ─── ICAR Maharashtra NPK thresholds per crop ────────────────────────────────
 # Used to generate validated, crop-specific explanations grounded in actual values
 CROP_THRESHOLDS = {
-    "rice":      dict(n_low=90,  p_low=40,  k_low=38,  n_high=110, p_high=52,  k_high=45,  n_opt="90–110", p_opt="40–52",  k_opt="38–45"),
-    "sugarcane": dict(n_low=220, p_low=90,  k_low=115, n_high=260, p_high=108, k_high=138, n_opt="220–260",p_opt="90–108", k_opt="115–138"),
-    "cotton":    dict(n_low=115, p_low=58,  k_low=46,  n_high=138, p_high=72,  k_high=55,  n_opt="115–138",p_opt="58–72",  k_opt="46–55"),
+    "rice":      dict(n_low=90,  p_low=60,  k_low=60,  n_high=150, p_high=60,  k_high=60,  n_opt="90–150", p_opt="50-60",  k_opt="50-60"),
+    "sugarcane": dict(n_low=150, p_low=40,  k_low=40, n_high=500, p_high=60, k_high=60, n_opt="150-500",p_opt="40-60", k_opt="40-60"),
+    "cotton":    dict(n_low=80, p_low=40,  k_low=40,  n_high=138, p_high=72,  k_high=55,  n_opt="115–138",p_opt="58–72",  k_opt="46–55"),
     "soybean":   dict(n_low=26,  p_low=66,  k_low=36,  n_high=34,  p_high=75,  k_high=45,  n_opt="26–34",  p_opt="66–75",  k_opt="36–45"),
     "maize":     dict(n_low=130, p_low=66,  k_low=46,  n_high=150, p_high=76,  k_high=55,  n_opt="130–150",p_opt="66–76",  k_opt="46–55"),
 }
@@ -162,7 +162,7 @@ def build_mh_input(data):
 # Maharashtra state averages + ICAR attainable yield benchmarks
 YIELD_BENCHMARKS = {
     "rice":      dict(state_avg=2437,  attainable=4500,  unit="kg/ha",  season="Kharif (Jun–Nov)"),
-    "sugarcane": dict(state_avg=91000, attainable=120000, unit="kg/ha", season="Annual (planted Oct–Mar)"),
+    "sugarcane": dict(state_avg=60000, attainable=80000, unit="kg/ha", season="Annual (planted Oct–Mar)"),
     "cotton":    dict(state_avg=450,   attainable=800,   unit="kg/ha",  season="Kharif (Jun–Nov)"),
     "soybean":   dict(state_avg=1200,  attainable=2500,  unit="kg/ha",  season="Kharif (Jun–Oct)"),
     "maize":     dict(state_avg=2656,  attainable=6000,  unit="kg/ha",  season="Kharif / Rabi"),
@@ -170,8 +170,8 @@ YIELD_BENCHMARKS = {
 
 # Which input is the biggest yield lever per crop (for limiting factor analysis)
 YIELD_LEVERS = {
-    "rice":      [("nitrogen", 90, 110), ("moisture", 60, 80), ("ph", 5.5, 7.0)],
-    "sugarcane": [("nitrogen", 220, 260), ("moisture", 65, 80), ("potassium", 115, 138)],
+    "rice":      [("nitrogen", 90, 150), ("moisture", 60, 80), ("ph", 5.5, 7.0)],
+    "sugarcane": [("nitrogen", 150, 300), ("moisture", 65, 90), ("potassium", 115, 138)],
     "cotton":    [("nitrogen", 115, 138), ("moisture", 40, 60), ("ph", 6.0, 8.0)],
     "soybean":   [("phosphorus", 66, 75), ("moisture", 50, 70), ("ph", 6.0, 7.5)],
     "maize":     [("nitrogen", 130, 150), ("moisture", 50, 70), ("potassium", 46, 55)],
